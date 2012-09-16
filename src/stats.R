@@ -66,7 +66,7 @@ examples <- function() {
   fb.time$total_duration <- dseconds(fb.time$total_duration)
 
   # Just for Mike
-  fb.time.mike <- stats.time.on.fb(subset(log.status, uid == 'xmpp:-1374361540@chat.facebook.com'))
+  fb.time.mike <- stats.total.duration(subset(log.status, uid == 'xmpp:-1374361540@chat.facebook.com'))
 
 
 
