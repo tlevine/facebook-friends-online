@@ -1,13 +1,15 @@
+# Subset the dataset for these statistics functions
 stats._subset <- function(
   data,
-  uid,
+  the.uid,
   start,
-  end,
+  end
 ) {
   # Inclusive at start datetime, exclusive at end datetime
-  subset(data, uid == uid && datetime => start && datetime < end)
+  subset(data, uid == the.uid) # & datetime >= start & datetime < end)
 }
 
+# Time spent on Facebook by user within a time span
 stats.time.on.fb <- function(
   data,
   uid,
@@ -16,5 +18,7 @@ stats.time.on.fb <- function(
   ...
 ) {
   data.subset <- stats._subset(data, uid, start, end)
+  data.subset
 }
 
+# stats.time.on.fb(log.status, 'xmpp:-1374361540@chat.facebook.com')
