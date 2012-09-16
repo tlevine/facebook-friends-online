@@ -32,20 +32,47 @@ stats.total.duration <- function(status) {
   total_duration
 }
 
+# Number of different days using Facebook
+stats.different.days <- function(status) {
+  length(unique(round_date(status$datetime, 'day')))
+}
+
+stats.longest.offline <- function(status) {
+}
+
+stats.longest.online <- function(status) {
+}
+
+stats.last.day.online <- function(status) {
+}
+
+stats.last.day.offline <- function(status) {
+}
+
+#stats. <- function(status) {
+#}
 
 
 
 
+examples <- function() {
+  # Subset by user and time span, then pick out the interesting columns.
+  # status <- stats._subset(data, uid, start, end)[c('datetime', 'status')]
+  fb.time <- ddply(log.status, 'uid', function(df) {
+     c(total_duration = stats.total.duration(df))
+  })
+  fb.time <- join(fb.time, nick.data.frame)
+  fb.time <- fb.time[order(fb.time$total_duration),]
+  fb.time$total_duration <- dseconds(fb.time$total_duration)
 
-# Subset by user and time span, then pick out the interesting columns.
-# status <- stats._subset(data, uid, start, end)[c('datetime', 'status')]
-fb.time <- ddply(log.status, 'uid', function(df) {
-   c(total_duration = stats.total.duration(df))
-})
-fb.time <- join(fb.time, nick.data.frame)
-fb.time <- fb.time[order(fb.time$total_duration),]
-fb.time$total_duration <- dseconds(fb.time$total_duration)
+  # Just for Mike
+  fb.time.mike <- stats.time.on.fb(subset(log.status, uid == 'xmpp:-1374361540@chat.facebook.com'))
 
-# Just for Mike
-fb.time.mike <- stats.time.on.fb(subset(log.status, uid == 'xmpp:-1374361540@chat.facebook.com'))
 
+
+  fb.different.days <- ddply(log.status, 'uid', function(df) {
+     c(different.days = stats.different.days(df))
+  })
+
+  plot(different.days ~ rank(-different.days), data = fb.different.days)
+}
